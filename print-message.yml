@@ -1,0 +1,10 @@
+name: Print Message Action
+description: Print a custom message
+inputs:
+  message:
+    description: 'Message to print'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - run: echo "${{ inputs.message }}"
