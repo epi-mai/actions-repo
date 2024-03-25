@@ -9,4 +9,4 @@ runs:
   steps:
     - name: Print Message Title
       shell: bash
-      run: echo "${{ inputs.message }}"
+      run: echo "${{ inputs.message }} mufeed"
