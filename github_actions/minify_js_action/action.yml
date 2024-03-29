@@ -1,0 +1,9 @@
+name: 'Composite action to launch js minification'
+description: 'Composite action to launch js minification'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run minify script
+      shell: bash
+      run: cd fwk-ci-script/ci && sh minify_js.sh
