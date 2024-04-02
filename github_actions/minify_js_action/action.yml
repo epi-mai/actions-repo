@@ -25,6 +25,8 @@ runs:
         fi
         
         cd ${{ github.workspace }}
+        echo "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+        echo ${{ github.workspace }}
         cd libs/VooLibJs
         
         # Minify
