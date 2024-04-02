@@ -33,7 +33,7 @@ runs:
         set +o errexit
         echo ${{ github.workspace }}
         ls
-        if [ -f "../../actions-repo/ci/launch_esbuild.js" ]; then
+        if [ -f "../../actions-repo/github_actions/ci/launch_esbuild.js" ]; then
             echo "Existe."
         else
             echo "Error: File 'actions-repo/ci/launch_esbuild.js' does not exist."
