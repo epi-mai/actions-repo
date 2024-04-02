@@ -9,19 +9,6 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-        
-    - name: Check if hotfix commit
-      id: hotfix
-      shell: bash
-      run: |
-        if [[ ${{ github.ref }} =~ ^refs/heads/(staging|release)-.*$ && ${{ github.event.commits[0].message }} =~ ^.*\[hotfix\].*$ ]]; then
-          echo "hotfix=true" 
-        else
-          echo "hotfix=false" 
-        fi
-
-
-
 
     
     - name: Install dependencies
