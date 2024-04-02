@@ -31,14 +31,18 @@ runs:
         
         # Minify
         set +o errexit
-        node launch_esbuild.js 2>&1 | grep -A 3 "error:"
-        echo "111111111111111111111111111111111"
+        if [ -f "actions-repo/ci/launch_esbuild.js" ]; then
+            echo "Existe."
+        else
+            echo "Error: File 'actions-repo/ci/launch_esbuild.js' does not exist."
+        fi
+        node actions-repo/ci/launch_esbuild.js 2>&1 | grep -A 3 "error:"
         errcode=$?
         set -o errexit
         echo "NNNNNNNNNNNNNNNNNNNNNNNNNNN"
 
         if [[ $errcode == 0 ]]; then
-          echo "La minification du code javascript à échoué."
+          echo "La minification du code javascript a échoué."
           exit 1
         fi
 
