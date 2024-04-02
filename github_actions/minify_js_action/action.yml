@@ -27,11 +27,10 @@ runs:
         cd ${{ github.workspace }}
         echo "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
         echo ${{ github.workspace }}
-        cd libs/VooLibJs
         
         # Minify
         set +o errexit
-        node ../../actions-repo/github_actions/ci/launch_esbuild.js 2>&1 | grep -A 3 "error:"
+        node actions-repo/github_actions/ci/launch_esbuild.js "libs/VooLibJs" 2>&1 | grep -A 3 "error:"
         errcode=$?
         set -o errexit
         echo "NNNNNNNNNNNNNNNNNNNNNNNNNNN"
