@@ -15,20 +15,12 @@ runs:
       shell: bash
       run: |
         if [[ ${{ github.ref }} =~ ^refs/heads/(staging|release)-.*$ && ${{ github.event.commits[0].message }} =~ ^.*\[hotfix\].*$ ]]; then
-          echo "hotfix=true" >> $GITHUB_OUTPUT
+          echo "hotfix=true" 
         else
-          echo "hotfix=false" >> $GITHUB_OUTPUT
+          echo "hotfix=false" 
         fi
 
-    # Echo the value of the id
-    - name: Echo Step ID
-      shell: bash
-      run: |
-        if [[ ${{ steps.hotfix.outputs.hotfix }} == true ]]; then
-          echo "Hotfix value: true"
-        else
-          echo "Hotfix value: false"
-        fi
+
 
 
     
@@ -37,7 +29,6 @@ runs:
       run: npm install esbuild @babel/core @babel/preset-env
       
     - name: Minify JavaScript
-      if: steps.hotfix.outputs.hotfix == 'true'
       shell: bash
       run: |
         if [[ ${{ github.ref }} == "refs/heads/main" ]]; then
