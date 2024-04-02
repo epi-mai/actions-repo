@@ -22,7 +22,8 @@ runs:
 
     # Echo the value of the id
     - name: Echo Step ID
-      run: echo "Step ID: ${{ steps.hotfix.id }}"
+      shell: bash
+      run: echo "Step ID: ${{ steps.hotfix.outputs.hotfix }}"
 
 
     
