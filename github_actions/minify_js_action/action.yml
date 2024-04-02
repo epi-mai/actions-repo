@@ -4,6 +4,15 @@ description: 'Composite action to launch js minification'
 runs:
   using: "composite"
   steps:
-    - name: Run minify script
-      shell: bash
-      run: cd fwk-ci-script/ci && sh minify_js.sh
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        
+    - name: Install dependencies
+      run: npm install esbuild @babel/core @babel/preset-env
+      
+    - name: Minify JavaScript
