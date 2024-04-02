@@ -32,13 +32,16 @@ runs:
         # Minify
         set +o errexit
         node launch_esbuild.js 2>&1 | grep -A 3 "error:"
+        echo "111111111111111111111111111111111"
         errcode=$?
         set -o errexit
+        echo "NNNNNNNNNNNNNNNNNNNNNNNNNNN"
 
         if [[ $errcode == 0 ]]; then
           echo "La minification du code javascript à échoué."
           exit 1
         fi
+
     - name: Commit changes
       shell: bash
       run: |
