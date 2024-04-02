@@ -23,8 +23,8 @@ runs:
         else
           echo "[INFO] ${{ github.workflow }}: script is disabled for this branch (script is enabled for master and [hotfix] commits)" && exit 0
         fi
-    - uses: actions/checkout@v4
     - name: Commit changes
+      shell: bash
       run: |
         git config user.name 'GitHub Actions'
         git config user.email 'actions@github.com'
