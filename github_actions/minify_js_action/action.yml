@@ -23,7 +23,12 @@ runs:
     # Echo the value of the id
     - name: Echo Step ID
       shell: bash
-      run: echo "Hotfix value: ${{ steps.hotfix.outputs.hotfix }}"
+      run: |
+        if [[ ${{ steps.hotfix.outputs.hotfix }} == true ]]; then
+          echo "Hotfix value: true"
+        else
+          echo "Hotfix value: false"
+        fi
 
 
     
