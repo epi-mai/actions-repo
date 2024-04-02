@@ -14,6 +14,7 @@ runs:
       run: npm install esbuild @babel/core @babel/preset-env
       
     - name: Minify JavaScript
+      shell: bash
       run: |
         if [[ ${{ github.ref }} == "refs/heads/master" ]]; then
           echo "[INFO] ${{ github.workflow }}: script is enabled for this branch"
