@@ -12,28 +12,29 @@ const getAllFiles = (sDirPath, aFiles = []) => {
 
     fs.readdirSync(sDirPath)
         .forEach((sFileName) => {
-            if (fs.statSync(`${sDirPath}/${sFileName}`).isDirectory()) {
-                aFiles.push(...getAllFiles(`${sDirPath}/${sFileName}`));
+            if (fs.statSync(path.join(sDirPath, sFileName)).isDirectory()) {
+                aFiles.push(...getAllFiles(path.join(sDirPath, sFileName)));
             } else {
-                aFiles.push(path.join(__dirname, sDirPath, '/', sFileName));
+                aFiles.push(path.join(sDirPath, sFileName));
             }
         });
 
     return aFiles;
 };
 
-const sBaseDirectory = '.';
+// Take base directory as command line argument
+const sBaseDirectory = process.argv[2] || '.';
 
 const aAllFiles = getAllFiles(sBaseDirectory)
     // only JS files
-    .filter((sFilePath) => sFilePath.indexOf('.js') === sFilePath.length - '.js'.length)
+    .filter((sFilePath) => sFilePath.endsWith('.js'))
     // remove existing minified files
-    .filter((sFilePath) => sFilePath.indexOf('-min.js') === -1)
+    .filter((sFilePath) => !sFilePath.endsWith('-min.js'))
     // remove current script because... it's useless to minify this script
-    .filter((sFilePath) => sFilePath.indexOf('launch_esbuild.js') === -1);
+    .filter((sFilePath) => !sFilePath.endsWith('launch_esbuild.js'));
 
 aAllFiles.forEach((sFilePath) => {
-    const sMinifiedPath = `${sFilePath.substring(sFilePath.indexOf('.js'), 0)}-min.js`;
+    const sMinifiedPath = `${sFilePath.substring(0, sFilePath.lastIndexOf('.js'))}-min.js`;
 
     // first, use babel to transform the code
     fs.writeFileSync(
