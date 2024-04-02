@@ -31,3 +31,7 @@ runs:
         git add .
         git diff-index --quiet --cached HEAD -- || git commit -m "Minification of JS files"
         git push origin HEAD:${{ github.ref }}
+        
+    - name: Remove Node.js packages
+      shell: bash
+      run: rm -rf node_modules
