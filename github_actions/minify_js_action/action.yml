@@ -1,5 +1,9 @@
 name: 'Composite action to launch js minification'
 description: 'Composite action to launch js minification'
+inputs:
+  js_lib:
+    description: 'JS lib directory path'
+    required: true
 
 runs:
   using: "composite"
@@ -30,7 +34,7 @@ runs:
         
         # Minify
         set +o errexit
-        node actions-repo/github_actions/ci/launch_esbuild.js "libs/VooLibJs" 2>&1 | grep -A 3 "error:"
+        node actions-repo/github_actions/ci/launch_esbuild.js ${{ inputs.js_lib }} 2>&1 | grep -A 3 "error:"
         errcode=$?
         set -o errexit
 
