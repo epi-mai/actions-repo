@@ -23,6 +23,20 @@ runs:
         else
           echo "[INFO] ${{ github.workflow }}: script is disabled for this branch (script is enabled for master and [hotfix] commits)" && exit 0
         fi
+        
+        cd ${{ github.workspace }}
+        cd libs/VooLibJs
+        
+        # Minify
+        set +o errexit
+        node launch_esbuild.js 2>&1 | grep -A 3 "error:"
+        errcode=$?
+        set -o errexit
+
+        if [[ $errcode == 0 ]]; then
+          echo "La minification du code javascript à échoué."
+          exit 1
+        fi
     - name: Commit changes
       shell: bash
       run: |
