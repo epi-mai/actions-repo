@@ -11,4 +11,14 @@ runs:
         node-version: '20.x'
     - name: Install dependencies
       shell: bash
-      run: npm ci
+      run: npm install esbuild @babel/core @babel/preset-env
+      
+    - name: Minify JavaScript
+      run: |
+        if [[ ${{ github.ref }} == "refs/heads/master" ]]; then
+          echo "[INFO] ${{ github.workflow }}: script is enabled for this branch"
+        elif [[ ${{ github.ref }} =~ ^(refs/heads/staging|refs/heads/release)-.*$ ]] && [[ $(git log --format=%B -n 1) =~ ^.*\[hotfix\].*$ ]]; then
+          echo "[INFO] ${{ github.workflow }}: script is enabled for hotfixes"
+        else
+          echo "[INFO] ${{ github.workflow }}: script is disabled for this branch (script is enabled for master and [hotfix] commits)" && exit 0
+        fi
