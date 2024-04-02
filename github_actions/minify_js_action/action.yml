@@ -10,4 +10,5 @@ runs:
       with:
         node-version: '20.x'
     - name: Install dependencies
+      shell: bash
       run: npm ci
