@@ -23,3 +23,10 @@ runs:
         else
           echo "[INFO] ${{ github.workflow }}: script is disabled for this branch (script is enabled for master and [hotfix] commits)" && exit 0
         fi
+    - name: Commit changes
+      run: |
+        git config user.name 'GitHub Actions'
+        git config user.email 'actions@github.com'
+        git add .
+        git diff-index --quiet --cached HEAD -- || git commit -m "Minification of JS files"
+        git push origin HEAD:${{ github.ref }}
