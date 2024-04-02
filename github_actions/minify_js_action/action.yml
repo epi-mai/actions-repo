@@ -31,7 +31,8 @@ runs:
         
         # Minify
         set +o errexit
-        if [ -f "actions-repo/ci/launch_esbuild.js" ]; then
+        echo ${{ github.workspace }}
+        if [ -f "../../actions-repo/ci/launch_esbuild.js" ]; then
             echo "Existe."
         else
             echo "Error: File 'actions-repo/ci/launch_esbuild.js' does not exist."
