@@ -20,6 +20,10 @@ runs:
           echo "hotfix=false" >> $GITHUB_OUTPUT
         fi
 
+    # Echo the value of the id
+    - name: Echo Step ID
+      run: echo "Step ID: ${{ steps.hotfix.id }}"
+
 
     
     - name: Install dependencies
