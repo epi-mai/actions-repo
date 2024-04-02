@@ -12,6 +12,7 @@ runs:
         
     - name: Check if hotfix commit
       id: hotfix
+      shell: bash
       run: |
         if [[ ${{ github.ref }} =~ ^refs/heads/(staging|release)-.*$ && ${{ github.event.commits[0].message }} =~ ^.*\[hotfix\].*$ ]]; then
           echo "hotfix=true" >> $GITHUB_OUTPUT
