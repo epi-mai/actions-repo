@@ -25,20 +25,21 @@ runs:
         fi
         
         cd ${{ github.workspace }}
-        echo "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
-        echo ${{ github.workspace }}
         
         # Minify
         set +o errexit
         node actions-repo/github_actions/ci/launch_esbuild.js "libs/VooLibJs" 2>&1 | grep -A 3 "error:"
         errcode=$?
         set -o errexit
-        echo "NNNNNNNNNNNNNNNNNNNNNNNNNNN"
 
         if [[ $errcode == 0 ]]; then
           echo "La minification du code javascript a échoué."
           exit 1
         fi
+        
+    - name: Remove Node.js packages
+      shell: bash
+      run: rm -rf node_modules
 
     - name: Commit changes
       shell: bash
@@ -49,6 +50,4 @@ runs:
         git diff-index --quiet --cached HEAD -- || git commit -m "Minification of JS files"
         git push origin HEAD:${{ github.ref }}
         
-    - name: Remove Node.js packages
-      shell: bash
-      run: rm -rf node_modules
+    
