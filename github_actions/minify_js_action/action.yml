@@ -16,7 +16,7 @@ runs:
     - name: Minify JavaScript
       shell: bash
       run: |
-        if [[ ${{ github.ref }} == "refs/heads/master" ]]; then
+        if [[ ${{ github.ref }} == "refs/heads/main" ]]; then
           echo "[INFO] ${{ github.workflow }}: script is enabled for this branch"
         elif [[ ${{ github.ref }} =~ ^(refs/heads/staging|refs/heads/release)-.*$ ]] && [[ $(git log --format=%B -n 1) =~ ^.*\[hotfix\].*$ ]]; then
           echo "[INFO] ${{ github.workflow }}: script is enabled for hotfixes"
