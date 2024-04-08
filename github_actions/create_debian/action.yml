@@ -15,24 +15,27 @@ runs:
         uses: actions/checkout@v2
 
       - name: Install Docker Compose
+        shell: bash
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
       - name: Start MySQL Container
+        shell: bash
         run: docker-compose up -d
 
       - name: Wait for MySQL to Start
+        shell: bash
         run: |
           while ! mysqladmin ping -h 127.0.0.1 -u root --password=root_password --silent; do
             echo "Waiting for MySQL to start..."
             sleep 5
           done
           
-    - name: Print Message Title
-      shell: bash
-      run: echo "${{ inputs.message }} mufeed"
+      - name: Print Message Title
+        shell: bash
+        run: echo "${{ inputs.message }} mufeed"
       
-    - name: Wait for mySQL to be available
-      shell: bash
-      run: cd fwk-ci-script/ci && sh build_and_install_deb.sh
+      - name: Wait for mySQL to be available
+        shell: bash
+        run: cd fwk-ci-script/ci && sh build_and_install_deb.sh
