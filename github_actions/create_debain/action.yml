@@ -1,0 +1,12 @@
+name: 'Create debian packet'
+
+inputs:
+  message:
+    description: 'Message to print'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Print Message Title
+      shell: bash
+      run: echo "${{ inputs.message }} mufeed"
