@@ -7,19 +7,10 @@ inputs:
 runs:
   using: 'composite'
   
-  services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: root
-        ports:
-          - "3306:3306"
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
 
   steps:
   
-    steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -41,3 +32,7 @@ runs:
     - name: Print Message Title
       shell: bash
       run: echo "${{ inputs.message }} mufeed"
+      
+    - name: Wait for mySQL to be available
+      shell: bash
+      run: cd fwk-ci-script/ci && sh build_and_install_deb.sh
