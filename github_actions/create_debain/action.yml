@@ -7,6 +7,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - uses: actions/checkout@v2
     - name: Print Message Title
       shell: bash
       run: echo "${{ inputs.message }} mufeed"
