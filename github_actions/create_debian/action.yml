@@ -6,8 +6,38 @@ inputs:
     required: true
 runs:
   using: 'composite'
+  
+  services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: root
+        ports:
+          - "3306:3306"
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
   steps:
-    - uses: actions/checkout@v2
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Start MySQL Container
+        run: docker-compose up -d
+
+      - name: Wait for MySQL to Start
+        run: |
+          while ! mysqladmin ping -h 127.0.0.1 -u root --password=root_password --silent; do
+            echo "Waiting for MySQL to start..."
+            sleep 5
+          done
+          
     - name: Print Message Title
       shell: bash
       run: echo "${{ inputs.message }} mufeed"
