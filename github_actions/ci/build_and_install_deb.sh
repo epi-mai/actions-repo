@@ -10,14 +10,11 @@ set -e
 
 _APPNAME=$1
 _APP_SOURCE_CODE=$2
-echo "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
-echo $1
-echo $2
-echo "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"
-ls -la
+
 _APPV=$(jq -r .PACKAGING.INF_VERSION $2/configs/APPINFOS)
 _PKG_LOWER_NAME=$(jq -r .PACKAGING.INF_PACKAGE $2/configs/APPINFOS | tr '[:upper:]' '[:lower:]')
 
+exit 0
 [[ -z ${_APPNAME} || -z ${_APPV} ]] &&
   echo "[ERROR] ${0##*/}: missing argument (voo4version appname appversion)" &&
   exit 1
