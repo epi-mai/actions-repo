@@ -35,3 +35,10 @@ echo "Version: $_VOO4V"
 # clean-up (only needed for local builds)
 rm -f /etc/apt/sources.list.d/epiconcept.list
 rm -rf /tmp/voozanoo4_* /tmp/deb-build
+
+export DEBIAN_FRONTEND=noninteractive
+
+touch /usr/local/bin/php_conf_deploy.sh
+chmod 0755 /usr/local/bin/php_conf_deploy.sh
+echo -n 'exit 0' > /usr/local/bin/php_conf_deploy.sh
+
