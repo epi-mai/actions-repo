@@ -42,3 +42,14 @@ touch /usr/local/bin/php_conf_deploy.sh
 chmod 0755 /usr/local/bin/php_conf_deploy.sh
 echo -n 'exit 0' > /usr/local/bin/php_conf_deploy.sh
 
+#
+# dependencies
+#
+# Remove rwky-redis.list to prevent 404, probably unuseable for trusty.
+# SBL 27/06/2017: mis en commentaire car fait planter le build. Probablement
+# depuis le passage sur les VM Trusty de Travis.
+# rm /etc/apt/sources.list.d/rwky-redis.list
+curl -u travisci:${APT_PASSWORD} https://apt.epiconcept.fr/prep/key.gpg | sudo apt-key add -
+echo 'deb [arch=amd64,all] https://apt.epiconcept.fr/prep/ jessie main' | sudo tee /etc/apt/sources.list.d/epiconcept.list > /dev/null
+echo -e "machine apt.epiconcept.fr\nlogin travisci\npassword ${APT_PASSWORD}" | sudo tee /etc/apt/auth.conf
+
