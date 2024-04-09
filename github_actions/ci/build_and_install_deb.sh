@@ -29,3 +29,9 @@ _VOO4V=$(echo $GITHUB_REF | sed 's/.*- *\([0-9]\{1,2\}.[0-9]\{1,3\}\).*/\1/')
 if [[ $GITHUB_REF =~ ^staging-.*$ ]]; then
     _VOO4V=$_VOO4V"-alpha"
 fi
+
+echo "Version: $_VOO4V"
+
+# clean-up (only needed for local builds)
+rm -f /etc/apt/sources.list.d/epiconcept.list
+rm -rf /tmp/voozanoo4_* /tmp/deb-build
