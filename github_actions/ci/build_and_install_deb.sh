@@ -15,6 +15,13 @@ if ! command_exists sudo; then
     apt-get install -y sudo
 fi
 
+# Ensure GnuPG is installed
+if ! command_exists gpg; then
+    echo "GnuPG not found, installing GnuPG..."
+    sudo apt-get update
+    sudo apt-get install -y gnupg
+fi
+
 set -e
 
 (($(id -u) != 0)) &&
