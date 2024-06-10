@@ -3,11 +3,16 @@
 # e.g
 # sudo ./script/build_and_install_deb.sh $TEST_PROJECT_NAME $APPLI_CODE
 
-# Check if running as root
-if [ "$(id -u)" -ne 0 ]; then
-  SUDO='sudo'
-else
-  SUDO=''
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Check if sudo is installed, install if it is not
+if ! command_exists sudo; then
+    echo "sudo not found, installing sudo..."
+    apt-get update
+    apt-get install -y sudo
 fi
 
 set -e
@@ -56,9 +61,9 @@ echo -n 'exit 0' > /usr/local/bin/php_conf_deploy.sh
 # SBL 27/06/2017: mis en commentaire car fait planter le build. Probablement
 # depuis le passage sur les VM Trusty de Travis.
 # rm /etc/apt/sources.list.d/rwky-redis.list
-curl -u travisci:${APT_PASSWORD} https://apt.epiconcept.fr/prep/key.gpg | SUDO apt-key add -
-echo 'deb [arch=amd64,all] https://apt.epiconcept.fr/prep/ jessie main' | SUDO tee /etc/apt/sources.list.d/epiconcept.list > /dev/null
-echo -e "machine apt.epiconcept.fr\nlogin travisci\npassword ${APT_PASSWORD}" | SUDO tee /etc/apt/auth.conf
+curl -u travisci:${APT_PASSWORD} https://apt.epiconcept.fr/prep/key.gpg | sudo apt-key add -
+echo 'deb [arch=amd64,all] https://apt.epiconcept.fr/prep/ jessie main' | sudo tee /etc/apt/sources.list.d/epiconcept.list > /dev/null
+echo -e "machine apt.epiconcept.fr\nlogin travisci\npassword ${APT_PASSWORD}" | sudo tee /etc/apt/auth.conf
 
 
 #
@@ -83,11 +88,11 @@ if [ ! -e "$dest" ]; then
 fi
 
 # XXX travis pre-installs MySQL 5.6
-SUDO apt-get remove --purge "^mysql.*"
-SUDO apt-get autoremove
-SUDO apt-get autoclean
-SUDO rm -rf /var/lib/mysql
-SUDO rm -rf /var/log/mysql
+sudo apt-get remove --purge "^mysql.*"
+sudo apt-get autoremove
+sudo apt-get autoclean
+sudo rm -rf /var/lib/mysql
+sudo rm -rf /var/log/mysql
 
 apt-get update
 apt-get install -y curl git
@@ -100,15 +105,15 @@ _VOO4DEPS=$(
 )
 
 apt-get install -y apache2
-SUDO a2enmod ssl
+sudo a2enmod ssl
 
 apt-get install -y ${_VOO4DEPS}
 apt-get install -y mysql-server
 mysql -e "CREATE USER 'travis'@'localhost' IDENTIFIED BY 'travis';"
 apt-get install -y epi-frontal
 
-SUDO add-apt-repository -y ppa:ondrej/php
-SUDO apt-get update
+sudo add-apt-repository -y ppa:ondrej/php
+sudo apt-get update
 
 apt-get install -y php7.4-cli php7.4 php7.4-curl php7.4-mysql php7.4-xsl php7.4-mbstring libapache2-mod-php7.4
 
@@ -121,7 +126,7 @@ ${0%/*}/../cirecipes/deb-build/bin/mkpack.voo4core.sh --voo4-version=${_VOO4V}
 
 echo "Installing Voozanoo4 core"
 if [ -f "/var/lib/dpkg/lock" ]; then
-  sleep 3 && SUDO rm /var/lib/dpkg/lock
+  sleep 3 && sudo rm /var/lib/dpkg/lock
 fi
 
 packageName="voozanoo4_${_VOO4V}_${TRAVIS_BUILD_NUMBER}_$(date +"%Y%m%d%H%M%S").deb"
